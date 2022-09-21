@@ -22,12 +22,16 @@
                 <output type="number" const_name="l3_voltage" init_value="0">L3: voltage in V</output>
                 <output type="number" const_name="l3_current" init_value="0">L3: current in A</output>
                 <output type="number" const_name="l3_power" init_value="0">L3: power in W</output>
-                <output type="number" const_name="dc1_voltage" init_value="0.0">DC1 Voltage in V</output>
-                <output type="number" const_name="dc1_current" init_value="0.0">DC1 Current in A</output>
-                <output type="number" const_name="dc2_voltage" init_value="0.0">DC2 Voltage in V</output>
-                <output type="number" const_name="dc2_current" init_value="0.0">DC2 Current in A</output>
-                <output type="number" const_name="dc3_voltage" init_value="0.0">DC3 Voltage in V</output>
-                <output type="number" const_name="dc3_current" init_value="0.0">DC3 Current in A</output>
+                <output type="number" const_name="grid_freq" init_value="0.0">Grid frequency</output>
+                <output type="number" const_name="dc1_voltage" init_value="0.0">DC1 voltage in V</output>
+                <output type="number" const_name="dc1_current" init_value="0.0">DC1 current in A</output>
+                <output type="number" const_name="dc1_power" init_value="0.0">DC1 power in W</output>
+                <output type="number" const_name="dc2_voltage" init_value="0.0">DC2 voltage in V</output>
+                <output type="number" const_name="dc2_current" init_value="0.0">DC2 current in W</output>
+                <output type="number" const_name="dc2_power" init_value="0.0">DC2 power in V</output>
+                <output type="number" const_name="dc3_voltage" init_value="0.0">DC3 voltage in V</output>
+                <output type="number" const_name="dc3_current" init_value="0.0">DC3 current in A</output>
+                <output type="number" const_name="dc3_power" init_value="0.0">DC3 power in W</output>
                 <output type="number" const_name="home_power_pv" init_value="0.0">Home consumption PV in W</output>
                 <output type="number" const_name="home_power_grid" init_value="0.0">Home consumption Grid in W</output>
                 <output type="number" const_name="home_energy_today" init_value="0.0">Home consumption today in kWh</output>

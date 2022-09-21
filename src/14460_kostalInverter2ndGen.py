@@ -2,8 +2,6 @@
 
 import requests  # To not delete this module reference!!
 import requests.auth
-# import urllib3  # To not delete this module reference!!
-# import charset_normalizer  # To not delete this module reference!!
 import json
 from datetime import datetime
 
@@ -35,16 +33,20 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
         self.PIN_O_L3_VOLTAGE=12
         self.PIN_O_L3_CURRENT=13
         self.PIN_O_L3_POWER=14
-        self.PIN_O_DC1_VOLTAGE=15
-        self.PIN_O_DC1_CURRENT=16
-        self.PIN_O_DC2_VOLTAGE=17
-        self.PIN_O_DC2_CURRENT=18
-        self.PIN_O_DC3_VOLTAGE=19
-        self.PIN_O_DC3_CURRENT=20
-        self.PIN_O_HOME_POWER_PV=21
-        self.PIN_O_HOME_POWER_GRID=22
-        self.PIN_O_HOME_ENERGY_TODAY=23
-        self.PIN_O_HOME_ENERGY_TOTAL=24
+        self.PIN_O_GRID_FREQ=15
+        self.PIN_O_DC1_VOLTAGE=16
+        self.PIN_O_DC1_CURRENT=17
+        self.PIN_O_DC1_POWER=18
+        self.PIN_O_DC2_VOLTAGE=19
+        self.PIN_O_DC2_CURRENT=20
+        self.PIN_O_DC2_POWER=21
+        self.PIN_O_DC3_VOLTAGE=22
+        self.PIN_O_DC3_CURRENT=23
+        self.PIN_O_DC3_POWER=24
+        self.PIN_O_HOME_POWER_PV=25
+        self.PIN_O_HOME_POWER_GRID=26
+        self.PIN_O_HOME_ENERGY_TODAY=27
+        self.PIN_O_HOME_ENERGY_TOTAL=28
         self.FRAMEWORK._run_in_context_thread(self.on_init)
 
 ########################################################################################################
@@ -69,12 +71,16 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
             {'output': self.PIN_O_L3_VOLTAGE, 'dxNum': 67109890, 'calc': None, 'name': 'L3: voltage', 'lastVal': 0},
             {'output': self.PIN_O_L3_CURRENT, 'dxNum': 67109889, 'calc': None, 'name': 'L3: current', 'lastVal': 0},
             {'output': self.PIN_O_L3_POWER, 'dxNum': 67109891, 'calc': None, 'name': 'L3: power', 'lastVal': 0},
+            {'output': self.PIN_O_GRID_FREQ, 'dxNum': 67110400, 'calc': None, 'name': 'grid frequency', 'lastVal': 0},
             {'output': self.PIN_O_DC1_VOLTAGE, 'dxNum': 33555202, 'calc': None, 'name': 'DC1: voltage', 'lastVal': 0},
             {'output': self.PIN_O_DC1_CURRENT, 'dxNum': 33555201, 'calc': None, 'name': 'DC1: current', 'lastVal': 0},
+            {'output': self.PIN_O_DC1_POWER, 'dxNum': 33555203, 'calc': None, 'name': 'DC1: power', 'lastVal': 0},
             {'output': self.PIN_O_DC2_VOLTAGE, 'dxNum': 33555458, 'calc': None, 'name': 'DC2: voltage', 'lastVal': 0},
             {'output': self.PIN_O_DC2_CURRENT, 'dxNum': 33555457, 'calc': None, 'name': 'DC2: current', 'lastVal': 0},
+            {'output': self.PIN_O_DC2_POWER, 'dxNum': 33555459, 'calc': None, 'name': 'DC2: power', 'lastVal': 0},
             {'output': self.PIN_O_DC3_VOLTAGE, 'dxNum': 33555714, 'calc': None, 'name': 'DC3: voltage', 'lastVal': 0},
             {'output': self.PIN_O_DC3_CURRENT, 'dxNum': 33555713, 'calc': None, 'name': 'DC3: current', 'lastVal': 0},
+            {'output': self.PIN_O_DC3_POWER, 'dxNum': 33555715, 'calc': None, 'name': 'DC3: power', 'lastVal': 0},
             {'output': self.PIN_O_HOME_POWER_PV, 'dxNum': 83886336, 'calc': lambda x: x if x else 0, 'name': 'Actual home consumption PV', 'lastVal': 0},
             {'output': self.PIN_O_HOME_POWER_GRID, 'dxNum': 83886848, 'calc': lambda x: x if x else 0, 'name': 'Actual home consumption grid', 'lastVal': 0},
             {'output': self.PIN_O_HOME_ENERGY_TODAY, 'dxNum': 251659266, 'calc': lambda x: x if x else 0, 'name': 'todays home energy consumption', 'lastVal': 0},
@@ -111,19 +117,20 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
             response = requests.request("GET", request_url, headers={'Connection': 'close'})
         except Exception as exception:
             act_time = datetime.now()
-            self.DEBUG.set_value("ConnErr", str(act_time) + str(exception))
+            self.DEBUG.set_value("ConnErr", str(act_time) + ": " + str(exception))
             return None
 
         if response.status_code == 200:
             jsonbody = json.loads(response.text)
             entries = jsonbody['dxsEntries']
             map(self.set_response_to_outputs, entries)
+            self.DEBUG.set_value("ConnErr", "")
+        else:
+            self.DEBUG.set_value("ConnErr", "Received HTTP status: " + str(response.status_code))
 
     def set_response_to_outputs(self, entry):
-        result_entry = entry['dxsId']
-        output_entry = next(iter(filter(lambda x: x['dxNum'] == result_entry, self.registers)), None)
+        output_entry = next(iter(filter(lambda x: x['dxNum'] == entry['dxsId'], self.registers)), None)
 
-#         self.registers[outputNum]['calc'](value)
         if output_entry['calc']:
             value = output_entry['calc'](entry['value'])
         else:
@@ -132,12 +139,3 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
             self._set_output_value(output_entry['output'], value)
             self.DEBUG.set_value(output_entry['name'], value)
             output_entry['lastVal'] = value
-
-
-# Helper methods
-# If entries are 0 or unset, sometimes they are missed in the json
-def safe_read(dictionary, key, default):
-    if dictionary[key]:
-        return dictionary[key]
-    else:
-        return default
