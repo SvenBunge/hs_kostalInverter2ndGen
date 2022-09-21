@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <modules>
-        <module category="Energiemanagement" context="kostalInverter2ndGen14460" id="14460" name="kostalInverter2ndGen" internal_name="kostalInverter2ndGen" external_name="Kostal-Wechselrichter 2nd Gen (14460)" version="0.1">
+        <module category="Energiemanagement" context="kostalInverter2ndGen14460" id="14460" name="kostalInverter2ndGen" internal_name="kostalInverter2ndGen" external_name="Kostal-Wechselrichter 2nd Gen (14460)" version="1.0">
             <inputs>
                 <input type="number" const_name="switch" init_value="0">Switch on (1) / off (0)</input>
-                <input type="number" const_name="fetch_interval" init_value="10">Seconds of the interval to read power values (default: 5 secs)</input>
+                <input type="number" const_name="fetch_interval" init_value="10">Seconds of the read-interval (default: 10 secs)</input>
                 <input type="string" const_name="inverter_ip" init_value="127.0.0.1">IP of inverter</input>
             </inputs>
             <outputs>
