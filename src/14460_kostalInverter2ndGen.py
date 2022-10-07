@@ -43,10 +43,6 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
         self.PIN_O_DC3_VOLTAGE=22
         self.PIN_O_DC3_CURRENT=23
         self.PIN_O_DC3_POWER=24
-        self.PIN_O_HOME_POWER_PV=25
-        self.PIN_O_HOME_POWER_GRID=26
-        self.PIN_O_HOME_ENERGY_TODAY=27
-        self.PIN_O_HOME_ENERGY_TOTAL=28
         self.FRAMEWORK._run_in_context_thread(self.on_init)
 
 ########################################################################################################
@@ -80,11 +76,13 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
             {'output': self.PIN_O_DC2_POWER, 'dxNum': 33555459, 'calc': None, 'name': 'DC2: power', 'lastVal': 0},
             {'output': self.PIN_O_DC3_VOLTAGE, 'dxNum': 33555714, 'calc': None, 'name': 'DC3: voltage', 'lastVal': 0},
             {'output': self.PIN_O_DC3_CURRENT, 'dxNum': 33555713, 'calc': None, 'name': 'DC3: current', 'lastVal': 0},
-            {'output': self.PIN_O_DC3_POWER, 'dxNum': 33555715, 'calc': None, 'name': 'DC3: power', 'lastVal': 0},
-            {'output': self.PIN_O_HOME_POWER_PV, 'dxNum': 83886336, 'calc': lambda x: x if x else 0, 'name': 'Actual home consumption PV', 'lastVal': 0},
-            {'output': self.PIN_O_HOME_POWER_GRID, 'dxNum': 83886848, 'calc': lambda x: x if x else 0, 'name': 'Actual home consumption grid', 'lastVal': 0},
-            {'output': self.PIN_O_HOME_ENERGY_TODAY, 'dxNum': 251659266, 'calc': lambda x: x if x else 0, 'name': 'todays home energy consumption', 'lastVal': 0},
-            {'output': self.PIN_O_HOME_ENERGY_TOTAL, 'dxNum': 251659009, 'calc': lambda x: x if x else 0, 'name': 'total home energy consumption', 'lastVal': 0},
+            {'output': self.PIN_O_DC3_POWER, 'dxNum': 33555715, 'calc': None, 'name': 'DC3: power', 'lastVal': 0}
+            # Before enabling this please consider the value limit of 25 values per request.
+            # Idea of optimization then: Calculate the power values of DC the LBS instead of requesting them
+            # {'output': self.PIN_O_HOME_POWER_PV, 'dxNum': 83886336, 'calc': lambda x: x if x else 0, 'name': 'Actual home consumption PV', 'lastVal': 0},
+            # {'output': self.PIN_O_HOME_POWER_GRID, 'dxNum': 83886848, 'calc': lambda x: x if x else 0, 'name': 'Actual home consumption grid', 'lastVal': 0},
+            # {'output': self.PIN_O_HOME_ENERGY_TODAY, 'dxNum': 251659266, 'calc': lambda x: x if x else 0, 'name': 'todays home energy consumption', 'lastVal': 0},
+            # {'output': self.PIN_O_HOME_ENERGY_TOTAL, 'dxNum': 251659009, 'calc': lambda x: x if x else 0, 'name': 'total home energy consumption', 'lastVal': 0}
         ]
 
     def on_init(self):
