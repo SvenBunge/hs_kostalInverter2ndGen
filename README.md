@@ -7,7 +7,7 @@ Compatible with Kostal PIKO 12-20 (with green front) - Not compatible with PIKO 
 
 ## Developer Notes
 
-Developed for the GIRA HomeServer 4.11
+Developed for the GIRA HomeServer 4.12
 Licensed under the LGPL to keep all copies & forks free!
 
 :exclamation: **If you fork this project and distribute the module by your own CHANGE the Logikbaustein-ID because 14460 is only for this one and registered to @SvenBunge !!** :exclamation:

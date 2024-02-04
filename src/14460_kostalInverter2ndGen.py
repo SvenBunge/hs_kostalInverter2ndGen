@@ -10,12 +10,12 @@ from datetime import datetime
 ########################################################################################################
 ##** Code created by generator - DO NOT CHANGE! **##
 
-class KostalInverter2ndGen14460(hsl20_3.BaseModule):
+class KostalInverter2ndGen14460(hsl20_4.BaseModule):
 
     def __init__(self, homeserver_context):
-        hsl20_3.BaseModule.__init__(self, homeserver_context, "kostalInverter2ndGen14460")
+        hsl20_4.BaseModule.__init__(self, homeserver_context, "kostalInverter2ndGen14460")
         self.FRAMEWORK = self._get_framework()
-        self.LOGGER = self._get_logger(hsl20_3.LOGGING_NONE,())
+        self.LOGGER = self._get_logger(hsl20_4.LOGGING_NONE,())
         self.PIN_I_SWITCH=1
         self.PIN_I_FETCH_INTERVAL=2
         self.PIN_I_INVERTER_IP=3
@@ -43,7 +43,6 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
         self.PIN_O_DC3_VOLTAGE=22
         self.PIN_O_DC3_CURRENT=23
         self.PIN_O_DC3_POWER=24
-        self.FRAMEWORK._run_in_context_thread(self.on_init)
 
 ########################################################################################################
 #### Own written code can be placed after this commentblock . Do not change or delete commentblock! ####
@@ -133,7 +132,7 @@ class KostalInverter2ndGen14460(hsl20_3.BaseModule):
             value = output_entry['calc'](entry['value'])
         else:
             value = entry['value']
-        if value != output_entry['lastVal']:  # Send by change check
+        if value != output_entry['lastVal'] and self._can_set_output():  # Send by change check
             self._set_output_value(output_entry['output'], value)
             self.DEBUG.set_value(output_entry['name'], value)
             output_entry['lastVal'] = value

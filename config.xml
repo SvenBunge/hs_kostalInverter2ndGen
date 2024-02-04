@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <modules>
-        <module category="Energiemanagement" context="kostalInverter2ndGen14460" id="14460" name="kostalInverter2ndGen" internal_name="kostalInverter2ndGen" external_name="Kostal-Wechselrichter 2nd Gen (14460)" version="1.1">
+        <module category="Datenaustausch" context="kostalInverter2ndGen14460" id="14460" name="kostalInverter2ndGen" internal_name="kostalInverter2ndGen" external_name="Kostal-Wechselrichter 2nd Gen (14460)" version="1.2">
             <inputs>
                 <input type="number" const_name="switch" init_value="0">Switch on (1) / off (0)</input>
                 <input type="number" const_name="fetch_interval" init_value="10">Seconds of the read-interval (default: 10 secs)</input>
@@ -40,7 +40,7 @@
             <remanent_variables>
             </remanent_variables>
             <imports>
-                <import>hsl20_3_timer</import>
+                <import>hsl20_4_timer</import>
                 <import>lib/requests</import>
                 <import>lib/urllib3</import>
                 <import>lib/chardet</import>
